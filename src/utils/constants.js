@@ -1,0 +1,2 @@
+export const SERVER_URL_LOCAL = 'http://192.168.1.204:3000'
+export const PLAYER_UPDATE_INTERVAL = 100
