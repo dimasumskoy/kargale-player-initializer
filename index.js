@@ -1,3 +1,4 @@
+const SERVER_URL_LOCAL       = 'http://192.168.1.204:3000'
 const PLAYER_UPDATE_INTERVAL = 100
 
 const parseLinesData = (songData) => {
@@ -67,7 +68,7 @@ const initPlayer = async (props) => {
   })
 }
 
-export const loadPlayerData = async (props) => {
+export default function loadPlayerData(props) {
   const { 
     playerInstance, 
     songJson, 
