@@ -78,7 +78,7 @@ export const loadPlayerData = async (props) => {
   if (songJson === '') return false
 
   const currentSong = JSON.parse(songJson)
-  const lyricsData  = currentSong.syllables ? urrentSong.lyrics : parseLinesData(currentSong)
+  const lyricsData  = currentSong.syllables ? currentSong.lyrics : parseLinesData(currentSong)
 
   initialState.currentSong = {
     ...currentSong,
