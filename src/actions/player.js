@@ -4,14 +4,14 @@ import { PLAYER_UPDATE_INTERVAL } from '../utils/constants'
 export const initPlayer = async (props) => {
   const {
     playerInstance,
-    songPath,
+    currentSongPath,
     playNow,
-    updatePlayerCallback
+    stateUpdateCallback
   } = props
 
   const loadPlayerSource = async () => {
     try {
-      await playerInstance.loadAsync({ uri: songPath })
+      await playerInstance.loadAsync({ uri: currentSongPath })
       await playerInstance.setProgressUpdateIntervalAsync(PLAYER_UPDATE_INTERVAL)
 
       if (playNow) {
@@ -25,7 +25,7 @@ export const initPlayer = async (props) => {
   loadPlayerSource().then(() => {
     playerInstance.setOnPlaybackStatusUpdate(
       (playbackStatus) =>
-        setPlaybackUpdates({ ...playbackStatus, updatePlayerCallback })
+        setPlaybackUpdates({ ...playbackStatus, stateUpdateCallback })
     )
 
     return playerInstance

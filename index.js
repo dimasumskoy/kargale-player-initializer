@@ -2,36 +2,47 @@ import { parseLinesData } from './src/actions/line'
 import { initPlayer } from './src/actions/player'
 import { SERVER_URL_LOCAL } from './src/utils/constants'
 
-export default function loadPlayerData(props) {
-  const { 
-    playerInstance, 
-    songJson, 
-    initialState, 
-    updateCallback 
+const initialPlayerState = () => {
+  return {
+    isPlaying: false,
+    currentPosition: 0
+  }
+}
+
+const initialSongState = (song) => {
+  const songPath = `${SERVER_URL_LOCAL}/${song.audio}`
+
+  return {
+    ...song,
+    songPath: songPath,
+    lyrics: song.syllables ? song.lyrics : parseLinesData(song)
+  }
+}
+
+export default function KargalePlayer(props) {
+  const {
+    playerInstance,
+    currentSong,
+    stateUpdateCallback,
+    playNow
   } = props
 
-  if (songJson === '') return false
+  if (!currentSong) return null
 
-  const currentSong = JSON.parse(songJson)
-  const lyricsData  = currentSong.syllables ? currentSong.lyrics : parseLinesData(currentSong)
-
-  initialState.currentSong = {
-    ...currentSong,
-    songPath: `${SERVER_URL_LOCAL}/${currentSong.audio}`,
-    lyrics: lyricsData
+  const playerState = {
+    playerInstance: playerInstance,
+    playerState: initialPlayerState(),
+    currentSong: initialSongState(currentSong)
   }
+  
+  const currentSongPath = playerState.currentSong.songPath
 
   initPlayer({
     playerInstance,
-    songPath: initialState.currentSong.songPath,
-    playNow: true,
-    updatePlayerCallback: updateCallback
+    currentSongPath,
+    playNow,
+    stateUpdateCallback
   })
-    .then(playerInstance => {
-      updateCallback({
-        playerInstance: playerInstance,
-        currentSong: initialState.currentSong,
-        playerState: initialState.playerState
-      })
-    })
+
+  return playerState
 }

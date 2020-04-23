@@ -2,7 +2,7 @@ export const setPlaybackUpdates = (props) => {
   const {
     isPlaying,
     positionMillis,
-    updatePlayerCallback,
+    stateUpdateCallback,
   } = props
 
   let state = {
@@ -11,11 +11,8 @@ export const setPlaybackUpdates = (props) => {
   }
 
   if (positionMillis > 0) {
-    updatePlayerCallback(player => {
-      return {
-        ...player,
-        playerState: state
-      }
+    stateUpdateCallback({
+      playerState: state
     })
   }
 }
