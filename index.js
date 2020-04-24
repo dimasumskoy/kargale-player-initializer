@@ -1,6 +1,5 @@
 import { parseLinesData } from './src/actions/line'
 import { initPlayer } from './src/actions/player'
-import { SERVER_URL_LOCAL } from './src/utils/constants'
 
 const initialPlayerState = () => {
   return {
@@ -9,8 +8,8 @@ const initialPlayerState = () => {
   }
 }
 
-const initialSongState = (song) => {
-  const songPath = `${SERVER_URL_LOCAL}/${song.audio}`
+const initialSongState = (song, serverUrl) => {
+  const songPath = `${serverUrl}/${song.audio}`
 
   return {
     ...song,
@@ -19,12 +18,13 @@ const initialSongState = (song) => {
   }
 }
 
-export default function KargalePlayer(props) {
+export default function PlayerState(props) {
   const {
     playerInstance,
     currentSong,
     stateUpdateCallback,
-    playNow
+    playNow,
+    serverUrl
   } = props
 
   if (!currentSong) return null
@@ -32,7 +32,7 @@ export default function KargalePlayer(props) {
   const playerState = {
     playerInstance: playerInstance,
     playerState: initialPlayerState(),
-    currentSong: initialSongState(currentSong)
+    currentSong: initialSongState(currentSong, serverUrl)
   }
   
   const currentSongPath = playerState.currentSong.songPath
